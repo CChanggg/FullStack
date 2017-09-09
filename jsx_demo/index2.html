@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JSX DEMO</title>
+</head>
+
+<body>
+    <div id="example"></div>
+    <script src="./react.js"></script>
+    <script src="./react-dom.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+    // 第一个参数是虚拟DOM 
+    // 第二个参数 实际DOM 挂载点
+    // ReactDOM的职责 render渲染
+    // jsx语法 在js语法中使用HTML代码编写组件
+    // let myTitle =<div><p>Hello</p><p>World</p></div>
+    // let myTitle = <p>{'Hello ' + 'World'}</p>
+    // 定义一个组件
+    // 代码复用 团队分工
+    // class MyTitle extends React.Component {
+    //     // render 方法是component必须实现的唯一方法
+    //     render() {
+    //         // return的就是JSX语法的DOM模板
+    //         return <h1 style={{color: this.props.color}}>Hello World</h1>
+    //     }
+    // }
+    class MyTitle extends React.Component {
+        // 组件的构造函数,...args 组件参数,
+        constructor (...args) {
+            // 调用父类的构造函数
+            super(...args)//必须实现 
+            //React 组件的内部状态 定义初始状态
+            this.state = {
+                name: '访问者',
+                text: 'world',
+                isClicked:false
+            }
+        }
+        render(){
+            return (
+                <div>
+                    <input type="text" value={this.state.name} onChange={this.handleChange.bind(this)} />
+                    <p>你好,<span style={{'color':this.props.color}}>{this.state.name}</span></p>
+                    <p onClick={this.handleClick.bind(this)}>{this.state.text}</p>
+                </div>
+            )
+        }
+        handleChange(e){
+            let name = e.target.value
+            this.setState({
+                name
+                //键和值一样可以省略
+            })
+        }
+        handleClick(e){
+            // 界面状态交给数据
+            // 少一些业务，多一些状态数据
+            let isClicked = !this.state.isClicked
+            this.setState({
+              isClicked: isClicked,
+              text: isClicked ? 'Clicked' : 'World'
+            })
+        }
+    }
+    ReactDOM.render(
+        <MyTitle color="red"/>,document.getElementById('example'))
+    </script>
+</body>
+
+</html>
